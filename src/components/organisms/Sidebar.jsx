@@ -13,7 +13,10 @@ const mainNavItems = [
       label: "All Tasks", 
       path: "/all", 
       icon: "List",
-      count: taskLists.reduce((sum, list) => sum + (list.taskCount || 0), 0)
+      count: (taskLists || []).reduce((sum, list) => {
+        const taskCount = list.task_count_c || list.taskCount || 0;
+        return sum + (typeof taskCount === 'number' && !isNaN(taskCount) ? taskCount : 0);
+      }, 0)
     },
     { 
       label: "Today", 
