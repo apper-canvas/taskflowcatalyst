@@ -304,16 +304,16 @@ export const taskService = {
       });
 
       const params = {
-        records: [{
+records: [{
           Name: taskData.Name || taskData.title || taskData.title_c,
           title_c: taskData.title_c || taskData.title,
           description_c: taskData.description_c || taskData.description || "",
-          due_date_c: taskData.due_date_c || taskData.dueDate || null,
+          due_date_c: taskData.due_date_c || taskData.dueDate ? (taskData.due_date_c || taskData.dueDate).includes('T') ? taskData.due_date_c || taskData.dueDate : new Date(taskData.due_date_c || taskData.dueDate).toISOString().slice(0, 19) : null,
           priority_c: taskData.priority_c || taskData.priority || "medium",
           category_id_c: taskData.category_id_c ? parseInt(taskData.category_id_c) : (taskData.categoryId ? parseInt(taskData.categoryId) : null),
           list_id_c: taskData.list_id_c ? parseInt(taskData.list_id_c) : (taskData.listId ? parseInt(taskData.listId) : 1),
           completed_c: false,
-          created_at_c: new Date().toISOString(),
+          created_at_c: new Date().toISOString().slice(0, 19),
           completed_at_c: null
         }]
       };
@@ -370,8 +370,11 @@ export const taskService = {
         updateData.Name = updates.Name || updates.title || updates.title_c;
         updateData.title_c = updates.title_c || updates.title || updates.Name;
       }
-      if (updates.description_c || updates.description) updateData.description_c = updates.description_c || updates.description;
-      if (updates.due_date_c || updates.dueDate) updateData.due_date_c = updates.due_date_c || updates.dueDate;
+if (updates.description_c || updates.description) updateData.description_c = updates.description_c || updates.description;
+      if (updates.due_date_c || updates.dueDate) {
+        const dateValue = updates.due_date_c || updates.dueDate;
+        updateData.due_date_c = dateValue ? (dateValue.includes('T') ? dateValue : new Date(dateValue).toISOString().slice(0, 19)) : null;
+      }
       if (updates.priority_c || updates.priority) updateData.priority_c = updates.priority_c || updates.priority;
       if (updates.completed_c !== undefined || updates.completed !== undefined) {
         updateData.completed_c = updates.completed_c !== undefined ? updates.completed_c : updates.completed;
@@ -383,10 +386,10 @@ export const taskService = {
         updateData.list_id_c = updates.list_id_c !== undefined ? parseInt(updates.list_id_c) : parseInt(updates.listId);
       }
 
-      // Handle completion status change
+// Handle completion status change
       if (updates.hasOwnProperty("completed_c") || updates.hasOwnProperty("completed")) {
         const completed = updates.completed_c !== undefined ? updates.completed_c : updates.completed;
-        updateData.completed_at_c = completed ? new Date().toISOString() : null;
+        updateData.completed_at_c = completed ? new Date().toISOString().slice(0, 19) : null;
       }
 
       const params = {
@@ -480,9 +483,9 @@ export const taskService = {
       // Toggle completion status
       const newCompletedStatus = !currentTask.completed_c;
       
-      return await this.update(id, {
+return await this.update(id, {
         completed_c: newCompletedStatus,
-        completed_at_c: newCompletedStatus ? new Date().toISOString() : null
+        completed_at_c: newCompletedStatus ? new Date().toISOString().slice(0, 19) : null
       });
     } catch (error) {
       if (error?.response?.data?.message) {

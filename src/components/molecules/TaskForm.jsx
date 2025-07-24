@@ -54,7 +54,7 @@ const TaskForm = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
     
     if (!validateForm()) return;
@@ -63,7 +63,7 @@ const TaskForm = ({
       ...formData,
       categoryId: formData.categoryId ? parseInt(formData.categoryId) : null,
       listId: parseInt(formData.listId),
-      dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : null
+      dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString().slice(0, 19) : null
     };
     
     onSubmit(submitData);
