@@ -8,12 +8,12 @@ import { cn } from "@/utils/cn";
 const Sidebar = ({ taskLists = [], isOpen, onClose, onAddList }) => {
   const location = useLocation();
   
-  const mainNavItems = [
+const mainNavItems = [
     { 
       label: "All Tasks", 
       path: "/all", 
       icon: "List",
-      count: taskLists.reduce((sum, list) => sum + list.taskCount, 0)
+      count: taskLists.reduce((sum, list) => sum + (list.taskCount || 0), 0)
     },
     { 
       label: "Today", 
@@ -68,7 +68,7 @@ const Sidebar = ({ taskLists = [], isOpen, onClose, onAddList }) => {
                     <ApperIcon name={item.icon} size={18} />
                     <span>{item.label}</span>
                   </div>
-                  {item.count !== null && (
+{item.count !== null && !isNaN(item.count) && (
                     <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
                       {item.count}
                     </span>
@@ -112,8 +112,8 @@ const Sidebar = ({ taskLists = [], isOpen, onClose, onAddList }) => {
                     />
                     <span className="truncate">{list.name}</span>
                   </div>
-                  <span className="text-xs text-gray-500">
-                    {list.taskCount}
+<span className="text-xs text-gray-500">
+                    {list.taskCount || 0}
                   </span>
                 </NavLink>
               ))}
@@ -172,7 +172,7 @@ const Sidebar = ({ taskLists = [], isOpen, onClose, onAddList }) => {
                         <ApperIcon name={item.icon} size={18} />
                         <span>{item.label}</span>
                       </div>
-                      {item.count !== null && (
+{item.count !== null && !isNaN(item.count) && (
                         <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
                           {item.count}
                         </span>
@@ -220,8 +220,8 @@ const Sidebar = ({ taskLists = [], isOpen, onClose, onAddList }) => {
                         />
                         <span className="truncate">{list.name}</span>
                       </div>
-                      <span className="text-xs text-gray-500">
-                        {list.taskCount}
+<span className="text-xs text-gray-500">
+                        {list.taskCount || 0}
                       </span>
                     </NavLink>
                   ))}
