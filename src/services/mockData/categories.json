@@ -1,0 +1,29 @@
+{
+  "categories": [
+    {
+      "Id": 1,
+      "name": "Development",
+      "color": "#7c3aed"
+    },
+    {
+      "Id": 2,
+      "name": "Meetings",
+      "color": "#3b82f6"
+    },
+    {
+      "Id": 3,
+      "name": "Design",
+      "color": "#10b981"
+    },
+    {
+      "Id": 4,
+      "name": "Personal",
+      "color": "#f59e0b"
+    },
+    {
+      "Id": 5,
+      "name": "Admin",
+      "color": "#ef4444"
+    }
+  ]
+}

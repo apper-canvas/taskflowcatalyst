@@ -1,0 +1,32 @@
+{
+  "taskLists": [
+    {
+      "Id": 1,
+      "name": "Work Projects",
+      "color": "#7c3aed",
+      "taskCount": 4,
+      "completedCount": 2
+    },
+    {
+      "Id": 2,
+      "name": "Design Reviews",
+      "color": "#3b82f6",
+      "taskCount": 1,
+      "completedCount": 0
+    },
+    {
+      "Id": 3,
+      "name": "Client Work",
+      "color": "#10b981",
+      "taskCount": 1,
+      "completedCount": 0
+    },
+    {
+      "Id": 4,
+      "name": "Personal",
+      "color": "#f59e0b",
+      "taskCount": 2,
+      "completedCount": 1
+    }
+  ]
+}

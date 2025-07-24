@@ -1,0 +1,100 @@
+{
+  "tasks": [
+    {
+      "Id": 1,
+      "title": "Complete project proposal",
+      "description": "Finalize the Q4 project proposal with budget estimates and timeline",
+      "dueDate": "2024-12-20T09:00:00.000Z",
+      "priority": "high",
+      "categoryId": 1,
+      "listId": 1,
+      "completed": false,
+      "createdAt": "2024-12-15T08:00:00.000Z",
+      "completedAt": null
+    },
+    {
+      "Id": 2,
+      "title": "Team standup meeting",
+      "description": "Daily sync with development team",
+      "dueDate": "2024-12-18T10:00:00.000Z",
+      "priority": "medium",
+      "categoryId": 2,
+      "listId": 1,
+      "completed": true,
+      "createdAt": "2024-12-17T07:30:00.000Z",
+      "completedAt": "2024-12-18T10:30:00.000Z"
+    },
+    {
+      "Id": 3,
+      "title": "Review design mockups",
+      "description": "Provide feedback on the new dashboard designs",
+      "dueDate": "2024-12-19T15:00:00.000Z",
+      "priority": "medium",
+      "categoryId": 3,
+      "listId": 2,
+      "completed": false,
+      "createdAt": "2024-12-16T14:00:00.000Z",
+      "completedAt": null
+    },
+    {
+      "Id": 4,
+      "title": "Update documentation",
+      "description": "Update API documentation for the new endpoints",
+      "dueDate": "2024-12-21T16:00:00.000Z",
+      "priority": "low",
+      "categoryId": 1,
+      "listId": 1,
+      "completed": false,
+      "createdAt": "2024-12-15T11:00:00.000Z",
+      "completedAt": null
+    },
+    {
+      "Id": 5,
+      "title": "Client presentation prep",
+      "description": "Prepare slides for the client meeting next week",
+      "dueDate": "2024-12-22T14:00:00.000Z",
+      "priority": "high",
+      "categoryId": 2,
+      "listId": 3,
+      "completed": false,
+      "createdAt": "2024-12-17T09:15:00.000Z",
+      "completedAt": null
+    },
+    {
+      "Id": 6,
+      "title": "Code review",
+      "description": "Review pull requests from the team",
+      "dueDate": "2024-12-18T17:00:00.000Z",
+      "priority": "medium",
+      "categoryId": 1,
+      "listId": 1,
+      "completed": true,
+      "createdAt": "2024-12-18T08:00:00.000Z",
+      "completedAt": "2024-12-18T16:45:00.000Z"
+    },
+    {
+      "Id": 7,
+      "title": "Grocery shopping",
+      "description": "Buy ingredients for dinner party",
+      "dueDate": "2024-12-19T18:00:00.000Z",
+      "priority": "low",
+      "categoryId": 4,
+      "listId": 4,
+      "completed": false,
+      "createdAt": "2024-12-18T12:00:00.000Z",
+      "completedAt": null
+    },
+    {
+      "Id": 8,
+      "title": "Exercise routine",
+      "description": "30-minute workout session",
+      "dueDate": "2024-12-18T07:00:00.000Z",
+      "priority": "medium",
+      "categoryId": 4,
+      "listId": 4,
+      "completed": true,
+      "createdAt": "2024-12-17T20:00:00.000Z",
+      "completedAt": "2024-12-18T07:30:00.000Z"
+    }
+  ]
+}
