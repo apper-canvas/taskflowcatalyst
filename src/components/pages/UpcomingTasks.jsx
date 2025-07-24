@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { format, addDays, startOfDay } from "date-fns";
-import TaskList from "@/components/organisms/TaskList";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import { taskService } from "@/services/api/taskService";
+import { addDays, format, startOfDay } from "date-fns";
 import { categoryService } from "@/services/api/categoryService";
+import { taskService } from "@/services/api/taskService";
+import TaskList from "@/components/organisms/TaskList";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 
 const UpcomingTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,7 +17,7 @@ const UpcomingTasks = () => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+const loadData = async () => {
     setLoading(true);
     setError("");
     
@@ -27,8 +27,8 @@ const UpcomingTasks = () => {
         categoryService.getAll()
       ]);
       
-      setTasks(upcomingTasks);
-      setCategories(categoriesData);
+      setTasks(upcomingTasks || []);
+      setCategories(categoriesData || []);
     } catch (err) {
       console.error("Failed to load upcoming tasks:", err);
       setError("Failed to load upcoming tasks. Please try again.");
@@ -37,10 +37,10 @@ const UpcomingTasks = () => {
     }
   };
 
-  const handleToggleComplete = async (taskId) => {
+const handleToggleComplete = async (taskId) => {
     try {
       const updatedTask = await taskService.toggleComplete(taskId);
-      if (updatedTask.completed) {
+      if (updatedTask.completed_c) {
         // Remove completed tasks from upcoming view
         setTasks(prevTasks => prevTasks.filter(task => task.Id !== taskId));
         toast.success("Task completed! 🎉");
@@ -91,11 +91,11 @@ const UpcomingTasks = () => {
     );
   }
 
-  // Group tasks by day
+// Group tasks by day
   const groupedTasks = tasks.reduce((groups, task) => {
-    if (!task.dueDate) return groups;
+    if (!task.due_date_c) return groups;
     
-    const dueDate = startOfDay(new Date(task.dueDate));
+    const dueDate = startOfDay(new Date(task.due_date_c));
     const dateKey = format(dueDate, "yyyy-MM-dd");
     
     if (!groups[dateKey]) {
@@ -112,9 +112,9 @@ const UpcomingTasks = () => {
   const sortedGroups = Object.values(groupedTasks).sort((a, b) => a.date - b.date);
 
   const totalTasks = tasks.length;
-  const next7Days = tasks.filter(task => {
-    if (!task.dueDate) return false;
-    const dueDate = new Date(task.dueDate);
+const next7Days = tasks.filter(task => {
+    if (!task.due_date_c) return false;
+    const dueDate = new Date(task.due_date_c);
     const sevenDaysFromNow = addDays(new Date(), 7);
     return dueDate <= sevenDaysFromNow;
   }).length;

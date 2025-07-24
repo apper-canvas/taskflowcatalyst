@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
 import { categoryService } from "@/services/api/categoryService";
 import { taskService } from "@/services/api/taskService";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -20,7 +20,7 @@ const Categories = () => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+const loadData = async () => {
     setLoading(true);
     setError("");
     
@@ -32,9 +32,12 @@ const Categories = () => {
       
       // Calculate stats for each category
       const stats = {};
-      categoriesData.forEach(category => {
-        const categoryTasks = allTasks.filter(task => task.categoryId === category.Id);
-        const completedTasks = categoryTasks.filter(task => task.completed);
+      (categoriesData || []).forEach(category => {
+        const categoryTasks = (allTasks || []).filter(task => 
+          (task.category_id_c && parseInt(task.category_id_c.Id || task.category_id_c) === category.Id) ||
+          (task.categoryId === category.Id)
+        );
+        const completedTasks = categoryTasks.filter(task => task.completed_c || task.completed);
         
         stats[category.Id] = {
           total: categoryTasks.length,
@@ -43,7 +46,7 @@ const Categories = () => {
         };
       });
       
-      setCategories(categoriesData);
+      setCategories(categoriesData || []);
       setCategoryStats(stats);
     } catch (err) {
       console.error("Failed to load categories:", err);
@@ -171,7 +174,7 @@ const Categories = () => {
           actionLabel="Add Category"
           onAction={handleAddCategory}
           showAction={true}
-        />
+/>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category, index) => (
@@ -186,23 +189,23 @@ const Categories = () => {
                 <div className="flex items-center space-x-3">
                   <div 
                     className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${category.color}20` }}
+                    style={{ backgroundColor: `${category.color_c || category.color}20` }}
                   >
                     <ApperIcon 
                       name="Tag" 
                       size={20} 
-                      style={{ color: category.color }}
+                      style={{ color: category.color_c || category.color }}
                     />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{category.name}</h3>
+                    <h3 className="font-semibold text-gray-900">{category.Name}</h3>
                     <div className="flex items-center space-x-2 mt-1">
                       <Badge 
                         variant="default"
                         size="sm"
                         style={{ 
-                          backgroundColor: `${category.color}20`,
-                          color: category.color 
+                          backgroundColor: `${category.color_c || category.color}20`,
+                          color: category.color_c || category.color 
                         }}
                       >
                         {categoryStats[category.Id]?.total || 0} tasks
@@ -247,7 +250,7 @@ const Categories = () => {
                       animate={{ width: `${categoryStats[category.Id].progress}%` }}
                       transition={{ duration: 0.8, delay: index * 0.1 }}
                       className="h-2 rounded-full transition-all duration-300"
-                      style={{ backgroundColor: category.color }}
+                      style={{ backgroundColor: category.color_c || category.color }}
                     />
                   </div>
                   
@@ -268,5 +271,4 @@ const Categories = () => {
     </div>
   );
 };
-
 export default Categories;

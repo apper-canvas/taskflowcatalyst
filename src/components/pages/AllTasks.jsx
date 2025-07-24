@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import TaskList from "@/components/organisms/TaskList";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import { taskService } from "@/services/api/taskService";
 import { categoryService } from "@/services/api/categoryService";
-
+import { taskService } from "@/services/api/taskService";
+import TaskList from "@/components/organisms/TaskList";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 const AllTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -13,7 +12,7 @@ const AllTasks = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    loadData();
+loadData();
   }, []);
 
   const loadData = async () => {
@@ -26,8 +25,8 @@ const AllTasks = () => {
         categoryService.getAll()
       ]);
       
-      setTasks(tasksData);
-      setCategories(categoriesData);
+      setTasks(tasksData || []);
+      setCategories(categoriesData || []);
     } catch (err) {
       console.error("Failed to load data:", err);
       setError("Failed to load tasks. Please try again.");
@@ -36,12 +35,12 @@ const AllTasks = () => {
     }
   };
 
-  const handleToggleComplete = async (taskId) => {
+const handleToggleComplete = async (taskId) => {
     try {
       const updatedTask = await taskService.toggleComplete(taskId);
-      setTasks(prevTasks => 
+setTasks(prevTasks => 
         prevTasks.map(task => 
-          task.Id === taskId ? updatedTask : task
+          task.id === taskId ? updatedTask : task
         )
       );
       toast.success(updatedTask.completed ? "Task completed!" : "Task marked as active");
@@ -61,9 +60,9 @@ const AllTasks = () => {
       return;
     }
 
-    try {
+try {
       await taskService.delete(taskId);
-      setTasks(prevTasks => prevTasks.filter(task => task.Id !== taskId));
+      setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
       toast.success("Task deleted successfully");
     } catch (err) {
       console.error("Failed to delete task:", err);
@@ -85,9 +84,8 @@ const AllTasks = () => {
     );
   }
 
-  const completedCount = tasks.filter(task => task.completed).length;
+const completedCount = tasks.filter(task => task.completed).length;
   const activeCount = tasks.length - completedCount;
-
   return (
     <TaskList
       tasks={tasks}

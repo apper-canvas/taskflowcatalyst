@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
-import TaskList from "@/components/organisms/TaskList";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import { taskService } from "@/services/api/taskService";
 import { categoryService } from "@/services/api/categoryService";
+import { taskService } from "@/services/api/taskService";
+import TaskList from "@/components/organisms/TaskList";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 
 const TodayTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,7 +17,7 @@ const TodayTasks = () => {
     loadData();
   }, []);
 
-  const loadData = async () => {
+const loadData = async () => {
     setLoading(true);
     setError("");
     
@@ -27,8 +27,8 @@ const TodayTasks = () => {
         categoryService.getAll()
       ]);
       
-      setTasks(todayTasks);
-      setCategories(categoriesData);
+      setTasks(todayTasks || []);
+      setCategories(categoriesData || []);
     } catch (err) {
       console.error("Failed to load today's tasks:", err);
       setError("Failed to load today's tasks. Please try again.");
@@ -37,7 +37,7 @@ const TodayTasks = () => {
     }
   };
 
-  const handleToggleComplete = async (taskId) => {
+const handleToggleComplete = async (taskId) => {
     try {
       const updatedTask = await taskService.toggleComplete(taskId);
       setTasks(prevTasks => 
@@ -45,7 +45,7 @@ const TodayTasks = () => {
           task.Id === taskId ? updatedTask : task
         )
       );
-      toast.success(updatedTask.completed ? "Great job! Task completed! 🎉" : "Task marked as active");
+      toast.success(updatedTask.completed_c ? "Great job! Task completed! 🎉" : "Task marked as active");
     } catch (err) {
       console.error("Failed to toggle task:", err);
       toast.error("Failed to update task");
@@ -85,13 +85,14 @@ const TodayTasks = () => {
     );
   }
 
-  const completedCount = tasks.filter(task => task.completed).length;
+const completedCount = tasks.filter(task => task.completed_c).length;
   const totalCount = tasks.length;
   const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const todayDate = format(new Date(), "EEEE, MMMM d");
 
   return (
+<div className="space-y-6">
     <div className="space-y-6">
       {/* Progress Header */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-6 text-white">

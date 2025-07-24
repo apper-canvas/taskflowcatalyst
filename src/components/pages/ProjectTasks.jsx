@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import TaskList from "@/components/organisms/TaskList";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import { taskService } from "@/services/api/taskService";
 import { taskListService } from "@/services/api/taskListService";
 import { categoryService } from "@/services/api/categoryService";
+import { taskService } from "@/services/api/taskService";
+import TaskList from "@/components/organisms/TaskList";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 
 const ProjectTasks = () => {
   const { projectId } = useParams();
@@ -20,7 +20,7 @@ const ProjectTasks = () => {
     if (projectId) {
       loadData();
     }
-  }, [projectId]);
+}, [projectId]);
 
   const loadData = async () => {
     setLoading(true);
@@ -38,9 +38,9 @@ const ProjectTasks = () => {
         return;
       }
       
-      setTasks(projectTasks);
+      setTasks(projectTasks || []);
       setProject(projectData);
-      setCategories(categoriesData);
+      setCategories(categoriesData || []);
     } catch (err) {
       console.error("Failed to load project data:", err);
       setError("Failed to load project tasks. Please try again.");
@@ -49,7 +49,7 @@ const ProjectTasks = () => {
     }
   };
 
-  const handleToggleComplete = async (taskId) => {
+const handleToggleComplete = async (taskId) => {
     try {
       const updatedTask = await taskService.toggleComplete(taskId);
       setTasks(prevTasks => 
@@ -57,7 +57,7 @@ const ProjectTasks = () => {
           task.Id === taskId ? updatedTask : task
         )
       );
-      toast.success(updatedTask.completed ? "Task completed!" : "Task marked as active");
+      toast.success(updatedTask.completed_c ? "Task completed!" : "Task marked as active");
     } catch (err) {
       console.error("Failed to toggle task:", err);
       toast.error("Failed to update task");
@@ -105,10 +105,9 @@ const ProjectTasks = () => {
     return <Navigate to="/all" replace />;
   }
 
-  const completedCount = tasks.filter(task => task.completed).length;
+const completedCount = tasks.filter(task => task.completed_c).length;
   const totalCount = tasks.length;
   const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-
   return (
     <div className="space-y-6">
       {/* Project Header */}
@@ -117,15 +116,15 @@ const ProjectTasks = () => {
           <div className="flex items-center space-x-4">
             <div 
               className="w-12 h-12 rounded-xl flex items-center justify-center"
-              style={{ backgroundColor: `${project.color}20` }}
+              style={{ backgroundColor: `${project.color_c || project.color}20` }}
             >
               <div 
                 className="w-6 h-6 rounded-full"
-                style={{ backgroundColor: project.color }}
+                style={{ backgroundColor: project.color_c || project.color }}
               />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-900">{project.Name}</h1>
               <p className="text-gray-600">Project tasks and progress</p>
             </div>
           </div>
@@ -141,7 +140,7 @@ const ProjectTasks = () => {
             className="h-3 rounded-full transition-all duration-500 ease-out"
             style={{ 
               width: `${progress}%`,
-              background: `linear-gradient(90deg, ${project.color}, ${project.color}dd)`
+              background: `linear-gradient(90deg, ${project.color_c || project.color}, ${project.color_c || project.color}dd)`
             }}
           />
         </div>
@@ -161,7 +160,7 @@ const ProjectTasks = () => {
         showFilters={true}
       />
     </div>
-  );
+);
 };
 
 export default ProjectTasks;

@@ -20,10 +20,10 @@ const Layout = ({ children }) => {
     loadCategories();
   }, []);
 
-  const loadTaskLists = async () => {
+const loadTaskLists = async () => {
     try {
       const lists = await taskListService.getAll();
-      setTaskLists(lists);
+      setTaskLists(lists || []);
     } catch (error) {
       console.error("Failed to load task lists:", error);
       toast.error("Failed to load task lists");
@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
   const loadCategories = async () => {
     try {
       const cats = await categoryService.getAll();
-      setCategories(cats);
+      setCategories(cats || []);
     } catch (error) {
       console.error("Failed to load categories:", error);
     }
@@ -48,10 +48,20 @@ const Layout = ({ children }) => {
     toast.info("List creation feature coming soon!");
   };
 
-  const handleTaskSubmit = async (taskData) => {
+const handleTaskSubmit = async (taskData) => {
     setIsSubmitting(true);
     try {
-      await taskService.create(taskData);
+      // Map form data to database field names
+      const mappedData = {
+        title_c: taskData.title,
+        description_c: taskData.description,
+        due_date_c: taskData.dueDate,
+        priority_c: taskData.priority,
+        category_id_c: taskData.categoryId,
+        list_id_c: taskData.listId
+      };
+      
+      await taskService.create(mappedData);
       toast.success("Task created successfully!");
       setShowTaskForm(false);
       // Trigger a refresh of the current page data
