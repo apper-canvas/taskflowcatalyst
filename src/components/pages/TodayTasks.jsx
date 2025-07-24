@@ -15,9 +15,9 @@ const TodayTasks = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
+}, []);
 
-const loadData = async () => {
+  const loadData = async () => {
     setLoading(true);
     setError("");
     
@@ -83,18 +83,17 @@ const handleToggleComplete = async (taskId) => {
         onRetry={loadData}
       />
     );
-  }
+}
 
-const completedCount = tasks.filter(task => task.completed_c).length;
+  const completedCount = tasks.filter(task => task.completed_c).length;
   const totalCount = tasks.length;
   const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const todayDate = format(new Date(), "EEEE, MMMM d");
-
-  return (
-<div className="space-y-6">
+return (
     <div className="space-y-6">
-      {/* Progress Header */}
+      <div className="space-y-6">
+        {/* Progress Header */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-6 text-white">
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -120,14 +119,16 @@ const completedCount = tasks.filter(task => task.completed_c).length;
         </div>
       </div>
 
-      <TaskList
-        tasks={tasks}
-        categories={categories}
-        onToggleComplete={handleToggleComplete}
-        onEditTask={handleEditTask}
-        onDeleteTask={handleDeleteTask}
-        showFilters={false}
-      />
+<TaskList
+          tasks={tasks}
+          categories={categories}
+          onToggleComplete={handleToggleComplete}
+          onEditTask={handleEditTask}
+onEditTask={handleEditTask}
+          onDeleteTask={handleDeleteTask}
+          showFilters={false}
+        />
+      </div>
     </div>
   );
 };

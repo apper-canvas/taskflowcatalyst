@@ -1,3 +1,4 @@
+import "@/index.css";
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { Provider, useDispatch, useSelector } from "react-redux";
@@ -5,17 +6,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import { ToastContainer } from "react-toastify";
 import userReducer, { clearUser, setUser } from "@/store/userSlice";
 import Login from "@/components/pages/Login";
-import Signup from "@/components/pages/Signup";
-import Callback from "@/components/pages/Callback";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ResetPassword from "@/components/pages/ResetPassword";
-import PromptPassword from "@/components/pages/PromptPassword";
-import "@/index.css";
 import AllTasks from "@/components/pages/AllTasks";
+import PromptPassword from "@/components/pages/PromptPassword";
+import ErrorPage from "@/components/pages/ErrorPage";
 import TodayTasks from "@/components/pages/TodayTasks";
 import UpcomingTasks from "@/components/pages/UpcomingTasks";
 import Categories from "@/components/pages/Categories";
+import Signup from "@/components/pages/Signup";
+import Callback from "@/components/pages/Callback";
+import ResetPassword from "@/components/pages/ResetPassword";
+import ProjectTasks from "@/components/pages/ProjectTasks";
 import Layout from "@/components/organisms/Layout";
 
 // Redux store configuration
